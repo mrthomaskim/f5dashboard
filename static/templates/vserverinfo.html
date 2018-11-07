@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+    ul.members li span.state {
+        color: green;
+    }
+    ul.members li.down span.state {
+        color: red;
+    }
+    ul.members li.disabled span.state {
+        color: #FF8C00;
+    }
+    ul.members li.checking span.state {
+        color: #FF8C00;
+    }
+</style>
+{% endblock %}
+
+{% block context %}
+<p >VServer: <b>{{ vserver }}</b></p>
+{% endblock %}
+
+{% block body %}
+    <h2>Pool: {{ pool }}</h2>
+    <h2>Members</h2>
+    <ul class="members" id="members">
+    {% for member in pl_members %}
+        {% if member.state == 'up' %}
+        <li id="{{ member.cleanname }}">
+        {% elif member.state == 'disabled' %}
+        <li class="disabled" id="{{ member.cleanname }}">
+        {% elif member.state == 'checking' %}
+        <li class="disabled" >
+        {% else %}
+        <li class="down" id="{{ member.cleanname }}">
+        {% endif %}
+            <b>Name:</b> {{ member.name }}
+            <b>State:</b> <span class="state" id="{{ member.cleanstate }}" >{{ member.state }}</span>
+        </li>
+    {% endfor %}
+    </ul>
+    <div id="individualresult"></div>
+
+    <h2>Healthcheck Info</h2>
+    <b>Send: </b><code>{{ send }}</code> <br>
+    <b>Receive: </b><code>{{ recv }}</code> <br>
+
+     <h2>Load Balancer</h2>
+    <b>IP To Client: </b><code>{{ iptoclient }}</code> <br>
+    <b>Load Balancer Mode: </b><code>{{ lb_mode }}</code> <br>
+     
+
+    <h2>Certificate and Profile</h2>
+    <ul>
+    {% for profile in profiles %}
+        <li>
+            <b>Name: </b> <code>{{ profile.name }}</code><ul>
+            <li><b>Context: </b><code>{{ profile.context }}</code></li>
+            <li><b>Kind: </b><code>{{ profile.kind }}</code></li>
+           </ul>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <h2>Policies</h2>
+    <ul><li>
+    <code>{{ policies }}</code>
+    </ul></li>
+
+    <h2>iRules</h2>
+    <b>Rules</b>
+    <ul>
+    {% for rule in rules %}
+        <li>{{ rule.rule }}</li>
+        <ul><li><code>{{ rule.output|safe }}</code></li></ul>
+    {% endfor %}
+    </ul>
+{% endblock %}

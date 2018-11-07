@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block context %}
+<p>Online Pools: {{ online }}/{{ total }} {% if offline %}<b class="offline">({{ offline }} offline)</b>{% endif %}</p>
+{% endblock %}
+
+{% block body %}
+<div>
+    <ul class="pools">
+    {% for pool in pools %}
+        {% if pool.status != 'available' %}
+        <li class="offline">
+        {% else %}
+        <li>
+        {% endif %}
+            <a href="/{{ dc }}/pools/{{ pool.name }}">{{ pool.name }}</a>
+            <!-- <p class="status">{{ pool.status }}</p> -->
+         </li>
+    {% endfor %}
+    </ul>
+    <p style="clear:both;"></p>
+</div>
+{% endblock %}
+

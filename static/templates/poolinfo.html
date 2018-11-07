@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+    ul.members li span.state {
+        color: green;
+    }
+    ul.members li.down span.state {
+        color: red;
+    }
+    ul.members li.disabled span.state {
+        color: #FF8C00;
+    }
+    ul.members li.checking span.state {
+        color: #FF8C00;
+    }
+</style>
+</style>
+{% endblock %}
+
+{% block context %}
+<p>Pool: <b>{{ poolname }}</b></p>
+{% endblock %}
+
+{% block body %}
+    <h2>Members</h2>
+    <ul class="members" id="members">
+    {% for member in members %}
+        {% if member.state == 'up' %}
+        <li id="{{ member.cleanname }}">
+        {% elif member.state == 'disabled' %}
+        <li class="disabled" id="{{ member.cleanname }}">
+        {% elif member.state == 'checking' %}
+        <li class="disabled" >
+        {% else %}
+        <li class="down" id="{{ member.cleanname }}">
+        {% endif %}
+            <b>Name:</b> {{ member.name }}
+            <b>State:</b> <span class="state" id="{{ member.cleanstate }}" >{{ member.state }}</span>
+        </li>
+    {% endfor %}
+    </ul>
+    <div id="individualresult"></div>
+
+    <h2>Healthcheck Info</h2>
+    <b>Send: </b><code>{{ send }}</code> <br>
+    <b>Receive: </b><code>{{ recv }}</code> <br>
+
+     <h2>Load Balancer</h2>
+    <b>IP To Client: </b><code>{{ iptoclient }}</code> <br>
+    <b>Load Balancer Mode: </b><code>{{ lb_mode }}</code> <br>
+     
+{% endblock %}

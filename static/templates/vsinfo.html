@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block context %}
+<p >Virtual Servers: {{ lbs|length }}</p>
+{% endblock %}
+
+{% block body %}
+	<ul>
+	{% for vserver in lbs %}
+	    <li>
+                <b>Virtual Server: </b><a href="/{{ dc }}/vservers/{{ vserver.name }}" >{{ vserver.name }} <b>{{ vserver.port }}</b></a>
+                {% if vserver.pool %} 
+                    <ul>
+                        <li><b>Pool: </b> {{ vserver.pool  }} </li>
+                    </ul>
+                {% endif %}
+           </li>
+	{% endfor %}
+	</ul>
+{% endblock %}

@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>F5 Dashboard</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <style>
+            body {
+                font-family: 'Helvetica Neue';
+                padding: 0;
+                margin: 0;
+            }
+            div.container {
+                width: 1000px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            div.banner div.context {
+                display: inline-block;
+                float: right;
+                margin-right: 12px;
+            }
+            div.banner.nomargin {
+                margin-bottom: 10px;
+            }
+            div.navbar{
+                margin-bottom: 20px;
+            }
+        </style>
+        {% block styles %}{% endblock %}
+    </head>
+    <body>
+        <!---<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        
+        <header></header>
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">
+                <img src="../../static/logo.png" width="170" height="30" alt="">
+            </a>
+            <div class="container">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                            aria-expanded="false">Select F5</a>
+                        <div class="dropdown-menu">
+                            {% for datacenter in dcs %}
+                            <a class="dropdown-item" href="/{{ datacenter }}">{{ datacenter }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
+                    <li {% if page == 'dynamic' %}class="nav-item active"{% endif %}><a class="nav-link" href="/{{ dc }}/dynamic">Dynamic</a></li>
+                    <li {% if page == 'vservers' %}class="nav-item active"{% endif %}><a class="nav-link" href="/{{ dc }}/vservers">Virtual Servers</a></li>
+                    <li {% if page == 'pools' %}class="nav-item active"{% endif %}><a class="nav-link" href="/{{ dc }}/pools">Pools</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <ul ul class="navbar-nav mr-auto">
+                    <li class="nav-item"> <a class="btn btn-outline-light" href="/logout">Logout</a></li>
+            </div>
+            <p style="clear:both; "></p>
+        </div>
+
+        <div class="float-right">
+            {% block context %}{% endblock %}
+        </div>
+        
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>

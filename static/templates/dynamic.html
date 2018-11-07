@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+    table.dataTable thead th {
+        text-align: left;
+    }
+</style>
+
+{% endblock %}
+
+{% block context %}
+<p>Virtual Servers: {{ lbs|length }}</p>
+{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css"/>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+
+<script>
+    function format() {
+        $(document).ready( function () {
+            $('#dynamic').DataTable({
+                "columns": [
+                    { "data": "name",
+                        "render": function(data, type, row, meta){
+                            if(type === 'display'){
+                                data = '<a href="/{{ dc }}/vservers/' + data + '" target=_blank>' + data + '</a>';
+                            }
+                        return data;
+                        }
+                    },
+                    { "data": "port"},
+                    { "data": "pool",
+                        "render": function(data, type, row, meta){
+                            if(type === 'display'){
+                                data = '<a href="/{{ dc }}/pools/' + data + '" target=_blank>' + data + '</a>';
+                            }
+                        return data;
+                        }
+                    },
+                ],
+                "ajax": {
+                    "dataType": "json",
+                    "url": "dynamic/dynamic.json",
+                    //"dataSrc": data,
+                    "contentType":"application/json"
+                },
+           "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
+           "pageLength": 25
+           });
+        });
+    }
+    $( window ).on( "load", format );
+</script>
+
+    <table id="dynamic"  class="display compact" style="width:100%">
+        <thead><tr>
+            <th>VServer Name</th>
+            <th>Port</th>
+            <th>Pool</th>
+        </thead></tr>
+    </table>
+
+{% endblock %}

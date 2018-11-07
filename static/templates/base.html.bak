@@ -1,0 +1,157 @@
+<html>
+    <head>
+        <title>F5 Dashboard</title>
+        <style>
+            body {
+                font-family: 'Helvetica Neue';
+                padding: 20px;
+                margin: 20px;
+            }
+            div.container {
+                width: 1000px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            header {
+                padding: 32px 0 16px;
+            }
+            header h1 {
+                padding: 0;
+                margin: 0;
+                font-weight: 100;
+            }
+            div.banner {
+                width: 100%;
+                background-color: #70BCBC;
+                margin-bottom: 24px;
+                text-align: left;
+                color: rgba(255, 255, 255, 0.8);
+            }
+            div.banner.nomargin {
+                margin-bottom: 1px;
+            }
+            div.banner ul.nav {
+                display: inline-block;
+                float: left;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            div.banner ul.nav li {
+                display: inline-block;
+            }
+            div.banner ul.nav li:hover,
+            div.banner ul.nav li.active {
+                background-color: rgba(0, 0, 0, 0.2);
+            }
+            div.banner ul.nav li a {
+                display: block;
+                height: 54px;
+                line-height: 54px;
+                padding: 0 12px;
+                color: white;
+            }
+            div.banner div.context {
+                display: inline-block;
+                float: right;
+                margin-right: 12px;
+            }
+            a {
+                color: black;
+                text-decoration: none;
+            }
+            a:hover {
+                color: #111;
+            }
+            ul.pools li span {
+                color: green;
+            }
+            ul.pools li.offline span {
+                color: red;
+            }
+
+            ul.pools {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            ul.pools li {
+                float: left;
+                border: 0;
+                margin: 0 8px 8px 0;
+
+                /*background-color: #27ae60;*/
+                /*border: 1px solid #27ae60;*/
+                background-color: #F7F7F7;
+                border: 1px solid #DBDBDB;
+                text-align: center;
+            }
+            ul.pools li a {
+                display: block;
+                width: 232px;
+                padding: 8px 4px;
+                color: rgba(0, 0, 0, 0.3);
+            }
+            ul.pools li a:hover {
+                color: rgba(0, 0, 0, 0.8);
+            }
+            ul.pools li.offline {
+                background-color: #D64541;
+                border: 1px solid #D64541;
+            }
+            ul.pools li.offline a {
+                color: white;
+            }
+            ul.pools li p {
+                display: block;
+                text-transform: uppercase;
+                font-family: 'Helvetica Neue';
+                letter-spacing: 0.5;
+                font-weight: 200;
+                padding: 8px;
+                margin: 0;
+            }
+        </style>
+        {% block styles %}{% endblock %}
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <header>
+            <div class="container">
+                <h1>F5 Dashboard</h1>
+            </div>
+        </header>
+        <div class="banner nomargin">
+            <div class="container">
+                <ul class="nav">
+                    {% for datacenter in dcs %}
+                    <li {% if datacenter == dc %}class="active"{% endif %}><a href="/{{ datacenter }}">{{ datacenter }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <p style="clear:both;"></p>
+        </div>
+        <div class="banner">
+            <div class="container">
+                <ul class="nav">
+                    <select name="dcs" method="GET" action="/pool">
+                        <option value="{{ dcs[0] }}" selected>{{ dcs[0] }}</option>
+                        {% for datacenter in dcs[1:] %}
+                        <option value="{{ datacenter }}">{{ datacenter }}</option>"
+                        {% endfor %}
+                    </select>
+                    <li {% if page == 'dynamic' %}class="active"{% endif %}><a href="/{{ dc }}/dynamic">Dynamic</a></li>
+                    <li {% if page == 'vservers' %}class="active"{% endif %}><a href="/{{ dc }}/vservers">Virtual Servers</a></li>
+                    <li {% if page == 'pools' %}class="active"{% endif %}><a href="/{{ dc }}/pools">Pools</a></li>
+                </ul>
+                <div class="context">
+                    {% block context %}{% endblock %}
+                </div>
+            </div>
+            <p style="clear:both;"></p>
+        </div>
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>
