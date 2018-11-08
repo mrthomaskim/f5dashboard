@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 .DS_Store
 helper
+*.swp
 
 # C extensions
 *.so
