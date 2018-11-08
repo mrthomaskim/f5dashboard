@@ -5,7 +5,7 @@ with open('requirements.txt', 'rt') as requirements:
 
 setup(name='application',
       version='0.9.1',
-      description='Dashboard for CCC F5',
+      description='Dashboard for F5',
       long_description=open('README.md').read(),
       author='Thomas Kim',
       author_email='iam@thomaskim.net',
