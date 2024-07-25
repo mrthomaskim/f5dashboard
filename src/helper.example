@@ -1,0 +1,6 @@
+export F5_ENDPOINT=https://192.168.1.1/mgmt
+export USERID=hellokitty
+export PASSWD=abcd1234
+export F5_ENDPOINTS={}
+export AUTOMATION_PWD='abcd1234'
+export JSON_FILE=app/config.json
